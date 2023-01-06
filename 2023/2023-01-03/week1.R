@@ -6,7 +6,8 @@
 
 # load packages ----------------------------------------------------------
 
-libs <- c("tidyverse", "tidytuesdayR", "sf")
+libs <- c("tidyverse", "tidytuesdayR", "rgdal", "broom",
+          "wesanderson")
 
 installed_libs <- libs %in% rownames (installed.packages ())
 if (any (installed_libs == F)) {
@@ -23,10 +24,12 @@ bigfoot <- tuesdata$bigfoot
 
 # wrangle data ------------------------------------------------------------
 
-bigfoot %>% group_by(state, county) %>% summarise(n = n()) %>% arrange(desc(n))
+bigfoot %>% 
+  group_by(state, county) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
 
 # plot --------------------------------------------------------------------
-
 
 
 
