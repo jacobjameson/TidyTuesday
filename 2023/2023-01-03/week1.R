@@ -17,14 +17,15 @@ invisible(lapply (libs, library, character.only = T))
 
 # load dataset ------------------------------------------------------------
 
-tuesdata <- tidytuesdayR::tt_load(2022, week = 24)
-drought <- tuesdata$drought
+tuesdata <- tidytuesdayR::tt_load('2022-09-13')
+bigfoot <- tuesdata$bigfoot
 
 # wrangle data ------------------------------------------------------------
 
-
+bigfoot %>% group_by(state, county) %>% summarise(n = n()) %>% arrange(desc(n))
 
 # plot --------------------------------------------------------------------
+
 
 
 
