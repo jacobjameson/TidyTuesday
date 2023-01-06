@@ -6,7 +6,7 @@
 
 # load packages ----------------------------------------------------------
 
-libs <- c("tidyverse", "tidytuesdayR")
+libs <- c("tidyverse", "tidytuesdayR", "sf")
 
 installed_libs <- libs %in% rownames (installed.packages ())
 if (any (installed_libs == F)) {
@@ -19,6 +19,7 @@ invisible(lapply (libs, library, character.only = T))
 
 tuesdata <- tidytuesdayR::tt_load('2022-09-13')
 bigfoot <- tuesdata$bigfoot
+
 
 # wrangle data ------------------------------------------------------------
 
