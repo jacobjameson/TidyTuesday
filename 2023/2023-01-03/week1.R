@@ -39,7 +39,6 @@ cities.drop <- !(total.cities %in% cities.2008)
 
 total.cities[cities.drop]
   
-subset(rent, !(team %in% c('A', 'B')))
 
 rent <- rent.raw %>%
   filter(beds == 2) %>%
