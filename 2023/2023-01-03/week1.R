@@ -16,7 +16,6 @@ if (any (installed_libs == F)) {
 
 invisible(lapply (libs, library, character.only = T))
 
-library(showtext)
 font_add_google("Lato")
 showtext_auto()
 
@@ -43,11 +42,11 @@ cities.included <- rent %>%
 cities.included <- unique(cities.included$city)
 
 rent <- rent %>%
-  filter(city %in% cities.included)
+  filter(city %in% cities.included) 
 
 # Also define the group of cities that are going to be highlighted
 highlights <- c("San Francisco", "Berkeley", "Menlo Park", 
-                "Palo Alto", " San Jose")
+                "Palo Alto", "Oakland")
 
 n <- length(highlights)
 
@@ -57,6 +56,7 @@ rent <- rent %>%
   mutate(ref_year = 2008,
          price_index = price[which(year == 2008)],
          price_rel = price - price_index,
+         price_rel = ifelse(price_rel > 3000, 3000, price_rel),
     group = if_else(city %in% highlights, city, "other"),
     group = as.factor(group)) %>% 
     mutate(
@@ -70,40 +70,29 @@ rent <- rent %>%
 theme_set(theme_minimal(base_family = "Lato"))
 
 theme_update(
-  # Remove title for both x and y axes
   axis.title = element_blank(),
-  # Axes labels are grey
   axis.text = element_text(color = "grey40"),
-  # The size of the axes labels are different for x and y.
   axis.text.x = element_text(size = 20, margin = margin(t = 5)),
   axis.text.y = element_text(size = 17, margin = margin(r = 5)),
-  # Also, the ticks have a very light grey color
   axis.ticks = element_line(color = "grey91", size = .5),
-  # The length of the axis ticks is increased.
   axis.ticks.length.x = unit(1.3, "lines"),
   axis.ticks.length.y = unit(.7, "lines"),
-  # Remove the grid lines that come with ggplot2 plots by default
   panel.grid = element_blank(),
-  # Customize margin values (top, right, bottom, left)
   plot.margin = margin(20, 40, 20, 40),
-  # Use a light grey color for the background of both the plot and the panel
   plot.background = element_rect(fill = "grey98", color = "grey98"),
   panel.background = element_rect(fill = "grey98", color = "grey98"),
-  # Customize title appearence
   plot.title = element_text(
     color = "grey10", 
-    size = 28, 
+    size = 34, 
     face = "bold",
     margin = margin(t = 15)
   ),
-  # Customize subtitle appearence
   plot.subtitle = element_text(
     color = "grey30", 
     size = 16,
     lineheight = 1.35,
     margin = margin(t = 15)
   ),
-  # Title and caption are going to be aligned
   plot.title.position = "plot",
   plot.caption.position = "plot",
   plot.caption = element_text(
@@ -111,9 +100,8 @@ theme_update(
     size = 13,
     lineheight = 1.2, 
     hjust = 0,
-    margin = margin(t = 40) # Large margin on the top of the caption.
+    margin = margin(t = 40) 
   ),
-  # Remove legend
   legend.position = "none"
 )
 
@@ -138,7 +126,6 @@ plt <- ggplot(rent %>% filter(group != "other"),
             color = "grey75", size = .6, alpha = .5) +
   geom_line(aes(color = city), size = .9)
 
-plt
 
 
 plt <- plt + 
@@ -157,14 +144,14 @@ plt <- plt +
   scale_y_continuous(expand = c(0, 0), breaks = seq(-1500, 3000, by = 500),
                      labels = glue::glue("{format(seq(-1500, 3000, by = 500), nsmall = 2)}$")) 
 
-plt 
 
 plt <- plt + 
   scale_color_manual(
     values = c(rcartocolor::carto_pal(n = n, name = "Bold")[1:n-1], "grey50")) +
   labs(
-    title = "Compared to the financial crisis in 2008, 2 bedroom prices skyrocket in the Bay",
-    subtitle = "The index chart visualizes the price changes (in USD) of a 2 bedroom housing unit in the Bay Area of California based on a 2008 as index year.",
+    title = "Bay Area housing prices skyrocket",
+    subtitle = "Price changes (in USD) of a 2 bedroom housing unit relative to 2008 prices\n",
     caption = "Visualization by Jacob Jameson (@JacobCJameson) • 2023 Week 1 of #TidyTuesday, 'Bring your own data from 2022!' (07-05-2022) • Inspired by visualization by Cédric Scherer."
   )
 plt
+
