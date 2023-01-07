@@ -25,17 +25,55 @@ rent.raw <- tuesdata$rent
 
 # wrangle data ------------------------------------------------------------
 
+cities.2008 <- rent.raw %>%
+  mutate(city = str_to_title(city)) %>%
+  filter(year == 2008)
+
+cities.total <- rent.raw %>%
+  mutate(city = str_to_title(city))
+
+cities.2008 <- unique(cities.2008$city)
+total.cities <- unique(cities.total$city)
+
+cities.drop <- !(total.cities %in% cities.2008)
+
+total.cities[cities.drop]
+  
+subset(rent, !(team %in% c('A', 'B')))
+
 rent <- rent.raw %>%
-  select(year, beds, price) %>%
-  filter(beds <= 5) %>%
-  group_by(year, beds) %>%
-  summarise(median.price = median(price))
+  filter(beds == 2) %>%
+  select(year, beds, price, city) %>%
+  mutate(city = str_to_title(city)) %>%
+  group_by(year, city) %>%
+  summarise(price = mean(price)) %>%
+  ungroup()
 
-unique(rent$beds)
 
-# Also define the group of countries that are going to be highlighted
-highlights <- c("0 bds", "1 bds", "2 bds", "3 bds", " 4bds", "5 bds")
+length(unique(rent$city))
+
+
+# Also define the group of cities that are going to be highlighted
+highlights <- c("San Francisco", "Berkeley", "Santa Cruz", 
+                "Watsonville", " Palo Alto", "Half Moon Bay", "Oakland")
+
 n <- length(highlights)
+
+
+rent <- rent %>% 
+  group_by(city) %>%
+  mutate(ref_year = 2008,
+         price_index = price[which(year == 2008)],
+         price_rel = price - price_index,
+    group = if_else(city %in% highlights, city, "other"),
+    group = as.factor(group)) %>% 
+  mutate(
+    group = fct_relevel(group, "other", after = Inf),
+    name_lab = if_else(year == 2018, name, NA_character_)) %>% 
+  ungroup()
+
+
+rent %>% filter(city == "Ben Lomond")
 
 # theme --------------------------------------------------------------------
 
@@ -79,33 +117,50 @@ theme_update(
 
 # plot --------------------------------------------------------------------
 
-plt <- ggplot(rent) + 
+
+plt <- ggplot(
+  # The ggplot object has associated the data for the highlighted countries
+  rent, 
+  aes(year, median.price, group = city)
+) + 
+  # Geometric annotations that play the role of grid lines
   geom_vline(
-    xintercept = seq(2000, 2018, by = 3),
+    xintercept = seq(2000, 2020, by = 5),
     color = "grey91", 
     size = .6
   ) +
   geom_segment(
-    data = tibble(y = seq(-4, 3, by = 1), x1 = 2000, x2 = 2018),
+    data = tibble(y = seq(-4, 3, by = 1), x1 = 2000, x2 = 2020),
     aes(x = x1, xend = x2, y = y, yend = y),
     inherit.aes = FALSE,
     color = "grey91",
     size = .6
   ) +
+  geom_segment(
+    data = tibble(y = 0, x1 = 2000, x2 = 2020),
+    aes(x = x1, xend = x2, y = y, yend = y),
+    inherit.aes = FALSE,
+    color = "grey60",
+    size = .8
+  ) +
   geom_vline(
-    aes(xintercept = year), 
+    aes(xintercept = 2008), 
     color = "grey40",
     linetype = "dotted",
     size = .8
   ) +
+  ## Lines for the non-highlighted countries
   geom_line(
     data = rent,
     color = "grey75",
     size = .6,
     alpha = .5
   ) +
+  ## Lines for the highlighted countries.
+  # It's important to put them after the grey lines
+  # so the colored ones are on top
   geom_line(
-    aes(color = group),
+    aes(color = city),
     size = .9
   )
 plt
