@@ -20,3 +20,8 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 | Week | Date | Data | Source | Article
 | :---: | :---: | :--- | :--- | :---|
 | 1 | `2023-01-03` | Bring your own data from 2022! | | |
+
+### [2022/36](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/) 🟥 SF Housing Prices by Kate Pennington's Craigslist scrape of Bay Area housing posts 
+
+![./2023/2023_01_03/w1.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/w1.png)
+
