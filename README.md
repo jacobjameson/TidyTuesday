@@ -23,5 +23,5 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ### [2023/1](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/) 🏡 SF Housing Prices by Kate Pennington's Craigslist scrape of Bay Area housing posts 
 
-![https://raw.githubusercontent.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/w1.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/w1.png)
+![./2023/2023-01-03/w1.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-03/w1.png)
 
