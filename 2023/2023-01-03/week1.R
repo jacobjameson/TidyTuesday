@@ -11,28 +11,6 @@ libs <- c("tidyverse", "tidytuesdayR", "broom",
 
 installed_libs <- libs %in% rownames (installed.packages ())
 if (any (installed_libs == F)) {
-  install.packages (libs[!installed_libs])
-}
-
-invisible(lapply (libs, library, character.only = T))
-
-font_add_google("Lato")
-showtext_auto()
-
-# load dataset ------------------------------------------------------------
-
-tuesdata <- tidytuesdayR::tt_load('2022-07-05')
-rent.raw <- tuesdata$rent
-
-# wrangle data ------------------------------------------------------------
-
-rent <- rent.raw %>%
-  filter(beds == 2) %>%
-  select(year, beds, price, city) %>%
-  mutate(city = str_to_title(city)) %>%
-  group_by(year, city) %>%
-  summarise(price = mean(price)) %>%
-  ungroup()
 
 cities.included <- rent %>%
   group_by(city) %>%
