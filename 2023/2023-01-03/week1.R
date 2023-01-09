@@ -83,13 +83,13 @@ theme_update(
   panel.background = element_rect(fill = "grey98", color = "grey98"),
   plot.title = element_text(
     color = "grey10", 
-    size = 34, 
+    size = 40, 
     face = "bold",
     margin = margin(t = 15)
   ),
   plot.subtitle = element_text(
     color = "grey30", 
-    size = 16,
+    size = 24,
     lineheight = 1.35,
     margin = margin(t = 15)
   ),
@@ -108,50 +108,84 @@ theme_update(
 
 # plot --------------------------------------------------------------------
 
-rm(plt)
 plt <- ggplot(rent %>% filter(group != "other"), 
               aes(year, price_rel, group = city)) + 
-  geom_vline(xintercept = seq(2000, 2018, by = 3),
-             color = "grey91", size = .6) +
-  geom_segment( data = tibble(y = seq(-1500, 3000, by = 250), 
-                              x1 = 2000, x2 = 2018),
-                aes(x = x1, xend = x2, y = y, yend = y),
-                inherit.aes = FALSE, color = "grey91", size = .6) +
-  geom_segment(data = tibble(y = 0, x1 = 2000, x2 = 2018),
-               aes(x = x1, xend = x2, y = y, yend = y),
-               inherit.aes = FALSE, color = "grey60", size = .8) +
-  geom_vline(aes(xintercept = 2008), color = "grey40", linetype = "dotted",
-             size = .8) +
-  geom_line(data = rent %>% filter(group == "other"), 
-            color = "grey75", size = .6, alpha = .5) +
-  geom_line(aes(color = city), size = .9)
+  geom_vline(
+    xintercept = seq(2000, 2018, by = 3),
+    color = "grey91", 
+    size = .6) +
+  geom_segment(
+    data = tibble(y = seq(-1500, 3000, by = 250), 
+                  x1 = 2000, x2 = 2018),
+    aes(x = x1, xend = x2, y = y, yend = y),
+    inherit.aes = FALSE, 
+    color = "grey91", 
+    size = .6) +
+  geom_segment(
+    data = tibble(y = 0, x1 = 2000, x2 = 2018),
+    aes(x = x1, xend = x2, y = y, yend = y),
+    inherit.aes = FALSE, 
+    color = "grey60", 
+    size = .8) +
+  geom_vline(
+    aes(xintercept = 2008), 
+    color = "grey40", 
+    linetype = "dotted",
+    size = .8) +
+  geom_line(
+    data = rent %>% 
+      filter(group == "other"), 
+    color = "grey75", 
+    size = .6,
+    alpha = .5) +
+  geom_line(
+    aes(color = city), 
+    size = .9)
 
 
 
 plt <- plt + 
-  annotate("text", x = 2008.15, y = -1000, label = "2008",
-           family = "Lato", size = 8, color = "grey40",
-           hjust = 0) +
-  geom_text_repel(aes(color = group, label = name_lab), fontface = "bold", 
-                  size = 8, direction = "y", xlim = c(2018.8, NA),
-                  hjust = 0, segment.size = .7, segment.alpha = .5,
-                  segment.linetype = "dotted", box.padding = .4,
-                  segment.curvature = -0.1, segment.ncp = 3,
-                  segment.angle = 20) + 
-  coord_cartesian(clip = "off", ylim = c(-1500, 3000)) +
-  scale_x_continuous(expand = c(0, 0), limits = c(2000, 2021.5), 
-                     breaks = seq(2000, 2018, by = 3)) +
-  scale_y_continuous(expand = c(0, 0), breaks = seq(-1500, 3000, by = 500),
-                     labels = glue::glue("{format(seq(-1500, 3000, by = 500), nsmall = 2)}$")) 
+  annotate(
+    "text", x = 2008.15, y = -1000, label = "2008",
+    family = "Lato", 
+    size = 8, 
+    color = "grey40",
+    hjust = 0) +
+  geom_text_repel(
+    aes(color = group, label = name_lab), 
+    fontface = "bold", 
+    size = 8, 
+    direction = "y", 
+    xlim = c(2018.8, NA),
+    hjust = 0, 
+    segment.size = .7, 
+    segment.alpha = .5,
+    segment.linetype = "dotted", 
+    box.padding = .4,
+    segment.curvature = -0.1, 
+    segment.ncp = 3,
+    segment.angle = 20) + 
+  coord_cartesian(
+    clip = "off", 
+    ylim = c(-1500, 3000)) +
+  scale_x_continuous(
+    expand = c(0, 0), 
+    limits = c(2000, 2021.5), 
+    breaks = seq(2000, 2018, by = 3)) +
+  scale_y_continuous(
+    expand = c(0, 0), 
+    breaks = seq(-1500, 3000, by = 500),
+    labels = glue::glue("{format(seq(-1500, 3000, by = 500), nsmall = 2)}$")) 
 
 
 plt <- plt + 
   scale_color_manual(
     values = c(rcartocolor::carto_pal(n = n, name = "Bold")[1:n-1], "grey50")) +
   labs(
-    title = "Bay Area housing prices skyrocket",
-    subtitle = "Price changes (in USD) of a 2 bedroom housing unit relative to 2008 prices\n",
+    title = "Bay Area rental prices skyrocket since 2008",
+    subtitle = "Price changes (in USD) of monthly rental prices of a 2 bedroom housing unit relative to 2008 prices\n",
     caption = "Visualization by Jacob Jameson (@JacobCJameson) • 2023 Week 1 of #TidyTuesday, 'Bring your own data from 2022!' (07-05-2022) • Inspired by visualization by Cédric Scherer."
   )
+
 plt
 
