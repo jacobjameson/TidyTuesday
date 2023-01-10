@@ -51,6 +51,8 @@ national.code <- list(
                          'US-AL')
 )
 
+feederwatch$subnational2_code <- feederwatch$subnational1_code
+
 for (i in seq(1,length(national.code))){
   name <- names(national.code[i])
   code <- national.code[[i]]
@@ -63,12 +65,12 @@ for (i in seq(1,length(national.code))){
 }
 
 feederwatch.clean <- feederwatch %>%
-  filter(Year == 2021) %>%
   group_by(subnational1_code, Year, Month, Day, species_code) %>%
-  summarise(total = sum(how_many)) %>%
+  summarise(total = sum(how_many), subnational2_code = subnational2_code) %>%
   ungroup() %>%
   group_by(subnational1_code, Year, Month, Day) %>%
-  summarise(total = total, species_code = species_code) %>%
+  summarise(total = total, species_code = species_code, 
+            subnational2_code = subnational2_code) %>%
   arrange(desc(total)) %>% 
   filter(row_number()==1) %>%
   ungroup()
@@ -103,6 +105,59 @@ feederwatch.clean <- feederwatch.clean %>%
          year = as.character(Year),
          date = as.Date(paste(year, month, day, sep = '-')))
 
-feederwatch.clean <- feederwatch.clean %>%
-  arrange(date)
+
+# theme --------------------------------------------------------------------
+
+theme_set(theme_minimal(base_family = "Lato"))
+
+theme_update(
+  axis.title = element_blank(),
+  axis.text = element_text(color = "grey40"),
+  axis.text.x = element_text(size = 10, margin = margin(t = 5)),
+  axis.text.y = element_text(size = 10, margin = margin(r = 5)),
+  axis.ticks = element_line(color = "grey91", size = .5),
+  axis.ticks.length.x = unit(1.3, "lines"),
+  axis.ticks.length.y = unit(.7, "lines"),
+  panel.grid = element_blank(),
+  plot.margin = margin(20, 40, 20, 40),
+  plot.background = element_rect(fill = "grey98", color = "grey98"),
+  panel.background = element_rect(fill = "grey98", color = "grey98"),
+  plot.title = element_text(
+    color = "grey10", 
+    size = 40, 
+    face = "bold",
+    margin = margin(t = 15)
+  ),
+  plot.subtitle = element_text(
+    color = "grey30", 
+    size = 24,
+    lineheight = 1.35,
+    margin = margin(t = 15)
+  ),
+  plot.title.position = "plot",
+  plot.caption.position = "plot",
+  plot.caption = element_text(
+    color = "grey30", 
+    size = 13,
+    lineheight = 1.2, 
+    hjust = 0,
+    margin = margin(t = 40) 
+  ))
+
+
+
+ggplot(feederwatch.clean, aes(x=day,y=month,fill=species)) +
+  geom_tile(colour="white", width=1, height=1)+
+  labs(caption="Data from FeederWatch | Chart @JacobCJameson",
+       subtitle='The bird of the day',
+       title="Bird of the Day", fill="") +
+  theme(
+    legend.position = "top",
+    legend.title=element_blank(),
+    legend.text=element_text(size=8),
+    legend.key.size = unit(0.4, 'cm'),
+    legend.box.margin = margin(b=7)
+  )
+
+
 
