@@ -7,7 +7,8 @@
 # load packages ----------------------------------------------------------
 
 libs <- c("tidyverse", "tidytuesdayR", "broom",
-          "wesanderson", "ggrepel", "ggtext", "showtext")
+          "wesanderson", "ggrepel", "ggtext", "showtext", 
+          "lubridate", "ggExtra")
 
 installed_libs <- libs %in% rownames (installed.packages ())
 if (any (installed_libs == F)) {
@@ -61,5 +62,47 @@ for (i in seq(1,length(national.code))){
       feederwatch$subnational1_code)
 }
 
+feederwatch.clean <- feederwatch %>%
+  filter(Year == 2021) %>%
+  group_by(subnational1_code, Year, Month, Day, species_code) %>%
+  summarise(total = sum(how_many)) %>%
+  ungroup() %>%
+  group_by(subnational1_code, Year, Month, Day) %>%
+  summarise(total = total, species_code = species_code) %>%
+  arrange(desc(total)) %>% 
+  filter(row_number()==1) %>%
+  ungroup()
 
+top.10 <- feederwatch.clean %>%
+  group_by(species_code) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n)) %>% 
+  head(10)
+
+top.10 <- top.10$species_code
+
+feederwatch.clean <- feederwatch.clean %>%
+  mutate(species = ifelse(species_code %in% top.10, species_code, 'Other'),
+         species = case_when(
+           species == "houspa" ~ 'House Sparrow',
+           species == "moudov" ~ "Mourning Dove",
+           species == "daejun" ~ 'Dark-eyed Junco',
+           species == "pinsis" ~ 'Pine Siskin',
+           species == "amegfi" ~ 'American Goldfinch',
+           species == "comred" ~ 'Common Redstart',
+           species == "houfin" ~ 'House Finch',
+           species == "bkcchi" ~ 'Black-capped Chickadee',
+           species == "norcar" ~ 'Northern Cardinal',
+           species == "rewbla" ~ 'Red-winged Blackbird',
+           TRUE ~ 'Other'))
+
+
+feederwatch.clean <- feederwatch.clean %>%
+  mutate(day = ifelse(Day < 10, paste0('0', as.character(Day)), as.character(Day)),
+         month = ifelse(Month < 10, paste0('0', as.character(Month)), as.character(Month)),
+         year = as.character(Year),
+         date = as.Date(paste(year, month, day, sep = '-')))
+
+feederwatch.clean <- feederwatch.clean %>%
+  arrange(date)
 
