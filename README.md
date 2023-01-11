@@ -25,3 +25,10 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ![./2023/2023-01-03/w1.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-03/w1.png)
 
+
+### [2023/2](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/) 🐦 FeederWatch
+
+![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-10/w2.png)
+
+
+
