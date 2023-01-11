@@ -187,4 +187,3 @@ ggplot(feederwatch.clean, aes(x=day,y=month,fill=number)) +
                           label.position = "bottom", 
                           title.position = 'top', nrow=1) )
 
-
