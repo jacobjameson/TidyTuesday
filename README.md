@@ -26,6 +26,10 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 ![./2023/2023-01-03/w1.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-03/w1.png)
 
 
+| Week | Date | Data | Source | Article
+| :---: | :---: | :--- | :--- | :---|
+ 2 | `2023-01-10` | [Bird FeederWatch data](2022-01-10/readme.md) | [FeederWatch](https://feederwatch.org/explore/raw-dataset-requests/) | [Over 30 Years of Standardized Bird Counts at Supplementary Feeding Stations in North America: A Citizen Science Data Report for Project FeederWatch](https://www.frontiersin.org/articles/10.3389/fevo.2021.619682/full) |
+ 
 ### [2023/2](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-03/) 🐦 FeederWatch
 
 ![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-10/w2.png)
