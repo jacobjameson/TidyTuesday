@@ -134,7 +134,7 @@ theme_update(
   axis.title = element_blank(),
   axis.text = element_text(color = "grey40"),
   axis.text.x = element_blank(),
-  axis.text.y = element_text(size = 10, margin = margin(r = 0)),
+  axis.text.y = element_text(size = 16, margin = margin(r = 0)),
   axis.ticks = element_line(color = "grey91", size = .5),
   axis.ticks.length.x = unit(1.3, "lines"),
   axis.ticks.length.y = unit(.1, "lines"),
@@ -173,7 +173,8 @@ pal<-c("grey90","#78B7C5", "#3B9AB2", "#EBCC2A", "#E1AF00", "#F21A00")
 
 ggplot(feederwatch.clean, aes(x=day,y=month,fill=number)) +
   geom_tile(colour="black", width=1, height=0.9) +
-  labs(caption= str_wrap("Data comes from California sightings logged to FeederWatch. FeederWatch is a November-April survey of birds 
+  labs(caption= str_wrap("Data comes from California sightings logged to FeederWatch. 
+                          FeederWatch is a November-April survey of birds 
                           that visit backyards, nature centers, community areas, 
                           and other locales in North America. @JacobCJameson", 100),
        subtitle= "No clear pattern in sightings of The California State bird!\n",
