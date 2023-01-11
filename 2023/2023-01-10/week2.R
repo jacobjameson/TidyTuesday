@@ -8,7 +8,7 @@
 
 libs <- c("tidyverse", "tidytuesdayR", "broom",
           "wesanderson", "ggrepel", "ggtext", "showtext", 
-          "lubridate", "ggExtra")
+          "lubridate", "ggExtra", "dvmisc")
 
 installed_libs <- libs %in% rownames (installed.packages ())
 if (any (installed_libs == F)) {
@@ -64,7 +64,9 @@ for (i in seq(1,length(national.code))){
       feederwatch$subnational1_code)
 }
 
+
 feederwatch.clean <- feederwatch %>%
+  filter(subnational2_code == 'US-CA', species_code == 'calqua') %>%
   group_by(subnational1_code, Year, Month, Day, species_code) %>%
   summarise(total = sum(how_many), subnational2_code = subnational2_code) %>%
   ungroup() %>%
@@ -72,31 +74,7 @@ feederwatch.clean <- feederwatch %>%
   summarise(total = total, species_code = species_code, 
             subnational2_code = subnational2_code) %>%
   arrange(desc(total)) %>% 
-  filter(row_number()==1) %>%
-  ungroup()
-
-top.10 <- feederwatch.clean %>%
-  group_by(species_code) %>%
-  summarise(n = n()) %>%
-  arrange(desc(n)) %>% 
-  head(10)
-
-top.10 <- top.10$species_code
-
-feederwatch.clean <- feederwatch.clean %>%
-  mutate(species = ifelse(species_code %in% top.10, species_code, 'Other'),
-         species = case_when(
-           species == "houspa" ~ 'House Sparrow',
-           species == "moudov" ~ "Mourning Dove",
-           species == "daejun" ~ 'Dark-eyed Junco',
-           species == "pinsis" ~ 'Pine Siskin',
-           species == "amegfi" ~ 'American Goldfinch',
-           species == "comred" ~ 'Common Redstart',
-           species == "houfin" ~ 'House Finch',
-           species == "bkcchi" ~ 'Black-capped Chickadee',
-           species == "norcar" ~ 'Northern Cardinal',
-           species == "rewbla" ~ 'Red-winged Blackbird',
-           TRUE ~ 'Other'))
+  ungroup() 
 
 
 feederwatch.clean <- feederwatch.clean %>%
@@ -106,6 +84,48 @@ feederwatch.clean <- feederwatch.clean %>%
          date = as.Date(paste(year, month, day, sep = '-')))
 
 
+
+dates <- data.frame(date = seq(as.Date("2020-11-01"), 
+                               as.Date("2021-04-30"), 
+                               by = "day"))
+
+feederwatch.clean <- merge(feederwatch.clean, 
+                           dates, 
+                           on='date', 
+                           all.y = T)
+
+feederwatch.clean <- feederwatch.clean %>%
+  mutate(total = ifelse(is.na(total), 0, total),
+         species = 'California Quail',
+         day = day(date),
+         month = month(date),
+         year = year(date),
+         month = case_when(
+           month == 11 ~ 'November',
+           month == 12 ~ 'December',
+           month == 1 ~ 'January',
+           month == 2 ~ 'February',
+           month == 3 ~ 'March',
+           month == 4 ~ 'April'))
+
+months_vec <- c("April", 'March', "February", 
+                "January", "December", "November")
+
+feederwatch.clean$month <- factor(feederwatch.clean$month, 
+                                  levels = months_vec)
+
+
+feederwatch.clean <- feederwatch.clean %>%
+  mutate(number = case_when(
+    total == 0 ~ '0',
+    total >= 1 & total < 5 ~ '1-5',
+    total >= 5 & total < 10 ~ '5-10',
+    total >= 10 & total < 15 ~ '10-15',
+    total >= 15 ~ '15+'))
+
+feederwatch.clean$number <- factor(feederwatch.clean$number, 
+                                  levels = c('0', '1-5', '5-10', '10-15', '15+'))
+
 # theme --------------------------------------------------------------------
 
 theme_set(theme_minimal(base_family = "Lato"))
@@ -113,18 +133,21 @@ theme_set(theme_minimal(base_family = "Lato"))
 theme_update(
   axis.title = element_blank(),
   axis.text = element_text(color = "grey40"),
-  axis.text.x = element_text(size = 10, margin = margin(t = 5)),
-  axis.text.y = element_text(size = 10, margin = margin(r = 5)),
+  axis.text.x = element_blank(),
+  axis.text.y = element_text(size = 10, margin = margin(r = 0)),
   axis.ticks = element_line(color = "grey91", size = .5),
   axis.ticks.length.x = unit(1.3, "lines"),
-  axis.ticks.length.y = unit(.7, "lines"),
+  axis.ticks.length.y = unit(.1, "lines"),
   panel.grid = element_blank(),
   plot.margin = margin(20, 40, 20, 40),
-  plot.background = element_rect(fill = "grey98", color = "grey98"),
-  panel.background = element_rect(fill = "grey98", color = "grey98"),
+  legend.position = c(0.8, -0.15),
+  text = element_text(color = "#22211d"),
+  plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+  panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+  legend.background = element_rect(fill = "#f5f5f2", color = NA),
   plot.title = element_text(
-    color = "grey10", 
-    size = 40, 
+    color = "#E1AF00", 
+    size = 46, 
     face = "bold",
     margin = margin(t = 15)
   ),
@@ -137,7 +160,7 @@ theme_update(
   plot.title.position = "plot",
   plot.caption.position = "plot",
   plot.caption = element_text(
-    color = "grey30", 
+    color = "grey50", 
     size = 13,
     lineheight = 1.2, 
     hjust = 0,
@@ -145,19 +168,22 @@ theme_update(
   ))
 
 
+pal<-c("grey90","#78B7C5", "#3B9AB2", "#EBCC2A", "#E1AF00", "#F21A00")
 
-ggplot(feederwatch.clean, aes(x=day,y=month,fill=species)) +
-  geom_tile(colour="white", width=1, height=1)+
-  labs(caption="Data from FeederWatch | Chart @JacobCJameson",
-       subtitle='The bird of the day',
-       title="Bird of the Day", fill="") +
-  theme(
-    legend.position = "top",
-    legend.title=element_blank(),
-    legend.text=element_text(size=8),
-    legend.key.size = unit(0.4, 'cm'),
-    legend.box.margin = margin(b=7)
-  )
 
+ggplot(feederwatch.clean, aes(x=day,y=month,fill=number)) +
+  geom_tile(colour="black", width=1, height=0.9) +
+  labs(caption= str_wrap("Data comes from California sightings logged to FeederWatch. FeederWatch is a November-April survey of birds 
+                          that visit backyards, nature centers, community areas, 
+                          and other locales in North America. @JacobCJameson", 100),
+       subtitle= "No clear pattern in sightings of The California State bird!\n",
+       title="Counting California Quail", fill="") +
+  scale_fill_manual( 
+    values=pal, 
+    name="Number of Backyard Sightings", 
+    guide = guide_legend( keyheight = unit(8, units = "mm"), 
+                          keywidth=unit(20, units = "mm"), 
+                          label.position = "bottom", 
+                          title.position = 'top', nrow=1) )
 
 
