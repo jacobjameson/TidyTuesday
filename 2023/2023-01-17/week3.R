@@ -31,6 +31,13 @@ art <- tuesdata$artists
 art <- art %>%
   filter(artist_race != 'N/A')
 
+art <- art %>%
+  group_by(book, artist_unique_id) %>%
+  summarize(artist_race = artist_race) %>%
+  ungroup() %>%
+  distinct()
+  
+
 art_raceG <- art %>%
   filter(book == 'Gardner') %>%
   group_by(artist_race) %>%
@@ -44,14 +51,14 @@ art_raceJ <- art %>%
 
 semicircleG <- parliament_data(election_data = art_raceG,
                                type = "semicircle",
-                               parl_rows = 20,
+                               parl_rows = 10,
                                party_seats = art_raceG$n)
 
 semicircleG$book <- 'Gardner'
 
 semicircleJ <- parliament_data(election_data = art_raceJ,
                                type = "semicircle",
-                               parl_rows = 15,
+                               parl_rows = 10,
                                party_seats = art_raceJ$n)
 
 semicircleJ$book <- 'Janson'
@@ -134,3 +141,4 @@ ggplot(semicircle, aes(x = x, y = y, colour = artist_race)) +
                           keywidth=unit(60, units = "mm"), 
                           label.position = "bottom", 
                           title.position = 'top', nrow=1)) 
+
