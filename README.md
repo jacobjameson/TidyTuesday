@@ -43,3 +43,12 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-17/w3.png)
 
+
+
+| Week | Date | Data | Source | Article
+| :---: | :---: | :--- | :--- | :---|
+| 4 | `2023-01-24` | [Alone data](2023-01-24/readme.md) | [Alone data package](https://github.com/doehm/alone) | [Alone R package: Datasets from the survival TV series](https://gradientdescending.com/alone-r-package-datasets-from-the-survival-tv-series/) |
+
+### [2023/3](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-24/) 🐻 ALONE
+
+![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-24/w4.png)
