@@ -19,6 +19,7 @@ if (any (installed_libs == F)) {
 invisible(lapply (libs, library, character.only = T))
 
 font_add_google("Pragati Narrow")
+font_add_google("Libre Barcode 39 Text")
 showtext_auto()
 
 # load dataset ------------------------------------------------------------
@@ -48,29 +49,29 @@ theme_update(
   axis.text = element_text(color = "grey40"),
   legend.text = element_text(color = "black",  size=15),
   legend.title = element_blank(),
-  #axis.text.x = element_blank(),
-  #axis.text.y = element_blank(),
-  strip.text.x = element_text(size = 30),
+  axis.text.x = element_blank(),
+  axis.text.y = element_text(color = "black", size = 15),
   axis.ticks = element_line(color = "grey91", size = .5),
   axis.ticks.length.x = unit(1.3, "lines"),
   axis.ticks.length.y = unit(.1, "lines"),
   panel.grid = element_blank(),
   plot.margin = margin(20, 40, 20, 40),
   legend.position = 'top',
-text = element_text(color = "black", size = 15),
+  text = element_text(color = "black", size = 55),
   plot.background = element_rect(fill = "#f5f5f2", color = NA), 
   panel.background = element_rect(fill = "#f5f5f2", color = NA), 
 legend.title.align=0.5,
   plot.title = element_text(
-    color = "#E1AF00", 
-    size = 48, 
+    color = "black", 
+    size = 68, 
+    family = 'Libre Barcode 39 Text',
     face = "bold",
     margin = margin(t = 15),
     hjust = 0.5
   ),
   plot.subtitle = element_text(
     color = "grey10", 
-    size = 24,
+    size = 44,
     lineheight = 1.35,
     margin = margin(t = 15),
     hjust = 0.5
@@ -122,20 +123,18 @@ df_lines <-
     x_group = if_else(type == "end_x" & x == max(x), x_group + .1, x_group)
   )
 
-# First, horizontal lines that are used as scale reference. 
-# They are added first to ensure they stay in the background.
+
 p <- df_episodes_avg %>% 
   ggplot(aes(episode_mod, days_lasted)) +
   geom_hline(
-    data = tibble(y = seq(-10, 110, by = 10)),
+    data = tibble(y = seq(0, 100, by = 10)),
     aes(yintercept = y),
     color = "grey82",
     size = .5
   )
 p
-# Add vertical segments. 
-# These represent the deviation of episode's rating from the mean rating of 
-# the season they appeared.
+
+
 p <- p + 
   geom_segment(
     aes(
@@ -146,9 +145,7 @@ p <- p +
     )
   )
 
-# Add lines and dots.
-# These represent the mean rating per season. 
-# The dots mark each episode's rating, with its size given by the number of votes.
+
 p <- p + 
   geom_line(
     data = df_lines,
@@ -163,7 +160,7 @@ p <- p +
       color = season, 
       color = after_scale(colorspace::darken(color, .2))
     ),
-    size = 2.5
+    size = 3.5
   ) + 
   geom_point(
     aes(color = season)
@@ -175,43 +172,54 @@ p <- p +
   geom_label(
     aes(
       mid, 
-      -5.20,
+      -10.20,
       label = glue::glue(" SEASON {season} "),
       color = season, 
-      color = after_scale(colorspace::darken(color, .2))
     ),
+    size = 7,
     fill = NA,
     family = "Pragati Narrow",
     fontface = "bold",
-    label.padding = unit(.2, "lines"),
+    label.padding = unit(.5, "lines"),
     label.r = unit(.25, "lines"), 
-    label.size = .5
+    label.size = NA
   ) 
 
 # Scale and labels customization.
 # Override default colors with a much better looking palette.
 p <- p + 
   scale_y_continuous(
-    expand = c(.03, .03),
-    limits = c(-10, 100),
-    breaks = seq(0, 100, by = 10),
-    sec.axis = dup_axis(name = NULL)
+    limits = c(-15, 110),
+    breaks = seq(0, 100, by = 20),
   ) +
   scale_color_manual(
-    values = c("#9986A5", "#E1BD6D", "#0B775E", "#35274A", "#F2300F", 
-               "#C7B0C1", "#B5C9C9", "#90A8C0", "#A8A890"),
+    values = c("#9986A5", "#999999", "#E69F00", "#56B4E9", "#009E73",
+               "#000000", "#0072B2", "#D55E00", "#CC79A7"),
     guide = FALSE 
   ) +
   labs(caption= str_wrap("@JacobCJameson", 183),
-       subtitle= "",
-       title="ALONE", fill="") +
+       subtitle= "A Season-by-Season Breakdown of ALONE Contestant Longevity",
+       title="ALONE", fill="",
+       ylab = 'Days Survived') +
   guides(
     size = guide_bins(
       show.limits = TRUE,
       direction = "horizontal",
       title.position = "top",
-      title.hjust = .5))
+      title.hjust = .5)) +
+  geom_label(aes(x=130,y=105, label = "Roland Welker made it 100 days"), size=4,
+             hjust = 0, vjust = "inward",
+             nudge_x = 0.05, nudge_y = 2,
+             label.padding = unit(0.2, "lines"),
+             label.size = NA, fill='#f5f5f2', color='#0072B2') +
+  geom_label(aes(x=20,y=-5, label = "Josh Chavez made it 0 days"), size=4,
+             hjust = 0, vjust = "inward",
+             nudge_x = 0.05, nudge_y = 2,
+             label.padding = unit(0.2, "lines"), 
+             label.size = NA, fill='#f5f5f2', color='#9986A5')
+
 p
+
 
 
 
