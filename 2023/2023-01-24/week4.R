@@ -19,7 +19,6 @@ if (any (installed_libs == F)) {
 invisible(lapply (libs, library, character.only = T))
 
 font_add_google("Pragati Narrow")
-font_add_google("Libre Barcode 39 Text")
 showtext_auto()
 
 # load dataset ------------------------------------------------------------
@@ -64,7 +63,6 @@ legend.title.align=0.5,
   plot.title = element_text(
     color = "black", 
     size = 68, 
-    family = 'Libre Barcode 39 Text',
     face = "bold",
     margin = margin(t = 15),
     hjust = 0.5
@@ -197,9 +195,9 @@ p <- p +
                "#000000", "#0072B2", "#D55E00", "#CC79A7"),
     guide = FALSE 
   ) +
-  labs(caption= str_wrap("@JacobCJameson", 183),
+  labs(caption= str_wrap("This dataset contains data from the TV series Alone collected and shared by Dan Oehm. As described in Oehm's blog post, in the survival TV series ‘Alone,’ 10 survivalists are dropped in an extremely remote area and must fend for themselves. They aim to last 100 days in the Artic winter, living off the land through their survival skills, endurance, and mental fortitude • Visualization by @JacobCJameson", 220),
        subtitle= "A Season-by-Season Breakdown of ALONE Contestant Longevity",
-       title="ALONE", fill="",
+       title="SURVIVING SOLITUDE", fill="",
        ylab = 'Days Survived') +
   guides(
     size = guide_bins(
@@ -207,12 +205,12 @@ p <- p +
       direction = "horizontal",
       title.position = "top",
       title.hjust = .5)) +
-  geom_label(aes(x=130,y=105, label = "Roland Welker made it 100 days"), size=4,
+  geom_label(aes(x=130,y=105, label = "Roland Welker made it 100 days"), size=5,
              hjust = 0, vjust = "inward",
              nudge_x = 0.05, nudge_y = 2,
              label.padding = unit(0.2, "lines"),
              label.size = NA, fill='#f5f5f2', color='#0072B2') +
-  geom_label(aes(x=20,y=-5, label = "Josh Chavez made it 0 days"), size=4,
+  geom_label(aes(x=20,y=-5, label = "Josh Chavez made it 0 days"), size=5,
              hjust = 0, vjust = "inward",
              nudge_x = 0.05, nudge_y = 2,
              label.padding = unit(0.2, "lines"), 
