@@ -122,7 +122,7 @@ pal <-  c("#9986A5", "#E1BD6D", "#0B775E", "#35274A", "#F2300F")
 
 ggplot(semicircle, aes(x = x, y = y, colour = artist_race)) +
   geom_parliament_seats() + 
-  facet_wrap(~book, ncol=2, scales="free_x", strip.position="bottom")+
+  facet_wrap(~book, ncol=2, scales="free_x", strip.position="bottom") +
   labs(caption= str_wrap("This dataset contains data that was used 
                          for Holland Stam’s thesis work, titled 
                          Quantifying art historical narratives. 
