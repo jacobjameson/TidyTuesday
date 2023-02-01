@@ -56,6 +56,18 @@ cats <- merge(cats, select(cats_uk_reference, c('tag_id', 'animal_id')),
               on='tag_id') %>%
   select(animal_id, diameter, area)
 
+cats$animal_id <- ifelse(cats$animal_id == 'Gracie_2', 'Gracie', cats$animal_id)
+cats$animal_id <- ifelse(cats$animal_id == 'Dexter2', 'Dexter', cats$animal_id)
+
+cats <- cats %>%
+  mutate(animal_id = ifelse(diameter < 8000, '', animal_id))
+
+packing <- circleProgressiveLayout(cats$area, sizetype='area')
+packing$radius <-packing$radius
+
+data <- cbind(cats, packing)
+dat.gg <- circleLayoutVertices(packing, npoints=100)
+
 
 
 # theme --------------------------------------------------------------------
@@ -73,19 +85,19 @@ theme_update(
   plot.margin = margin(20, 40, 20, 40),
   legend.position = 'top',
   text = element_text(color = "black", size = 55),
-  plot.background = element_rect(fill = "#f5f5f2", color = NA), 
-  panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+  plot.background = element_rect(fill = "#FFFFEF", color = NA), 
+  panel.background = element_rect(fill = "#FFFFEF", color = NA), 
   legend.title.align=0.5,
   plot.title = element_text(
     color = "black", 
-    size = 68, 
+    size = 88, 
     face = "bold",
     margin = margin(t = 15),
     hjust = 0.5
   ),
   plot.subtitle = element_text(
     color = "grey10", 
-    size = 44,
+    size = 32,
     lineheight = 1.35,
     margin = margin(t = 15),
     hjust = 0.5
@@ -105,24 +117,20 @@ theme_update(
 # plot --------------------------------------------------------------------
 
 
-cats <- cats %>%
-  mutate(animal_id = ifelse(diameter < 8000, '', animal_id))
-
-packing <- circleProgressiveLayout(cats$area, sizetype='area')
-packing$radius <-packing$radius
-
-data <- cbind(cats, packing)
-dat.gg <- circleLayoutVertices(packing, npoints=100)
-
 
 ggplot() + 
   geom_polygon(data = dat.gg, aes(x, y, group = id, fill=id), 
                colour = "black", alpha = 0.6) +
   scale_size_continuous(range = c(1,4)) +
-  scale_fill_distiller(palette = "Spectral", direction = 1 ) +
+  scale_fill_distiller(palette = "Set1", direction = 1 ) +
   geom_text(data = data, aes(x, y, size=area, label = animal_id), 
             color="black", family = 'Indie Flower', size =5) +
   theme(legend.position="none") + 
-  labs(caption= str_wrap(" • Visualization by @JacobCJameson", 200),
-       title="Cat Terrirory")
-
+  labs(caption= str_wrap("Between 2013 and 2017, Roland Kays et al. 
+                         convinced hundreds of volunteers in the U.S., 
+                         U.K., Australia, and New Zealand to strap GPS 
+                         sensors on their pet cats. Roaming area was calculated using
+                         time-stamped GPS pings to estimate how far each cat was willing to venture
+                         • Visualization by @JacobCJameson", 110),
+       title="Feline Footloose",
+       subtitle = 'Exploring the Relative Purr-imeter of Domestic Cats in the UK') 
