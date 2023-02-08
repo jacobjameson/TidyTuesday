@@ -61,3 +61,14 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 ### [2023/5](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-31/) 🐱 Pet Cats UK
 
 ![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-31/week5_edit.png)
+
+
+| Week | Date | Data | Source | Article
+| :---: | :---: | :--- | :--- | :---|
+| 6 | `2023-02-07` | [Big Tech Stock Prices](2023-02-07/readme.md) | [Big Tech Stock Prices on Kaggle](https://www.kaggle.com/datasets/evangower/big-tech-stock-prices) | [5 Charts on Big Tech Stocks’ Collapse](https://www.morningstar.com/articles/1129535/5-charts-on-big-tech-stocks-collapse) |
+
+### [2023/6](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-02-07/) 📈 Big Tech Stock Prices
+
+![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-07/w6.png)
+
+
