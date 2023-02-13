@@ -72,3 +72,10 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 ![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-07/w6.png)
 
 
+| Week | Date | Data | Source | Article
+| :---: | :---: | :--- | :--- | :---|
+| 7 | `2023-02-14` | [Hollywood Age Gaps](2023-02-14/readme.md) | [Hollywood Age Gap Download Data](https://hollywoodagegap.com/movies.csv) | [Hollywood Age Gap](https://hollywoodagegap.com/) |
+
+### [2023/6](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-02-14/) 🎬 Hollywood Age Gaps
+
+![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-14/w7.png)
