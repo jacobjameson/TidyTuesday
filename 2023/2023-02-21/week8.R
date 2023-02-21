@@ -1,0 +1,137 @@
+# ------------------------------------------------------------------------
+# WEEK 8 #TidyTuesday
+# AUTHOR: Jacob Jameson
+# THEME: "Bob Ross"
+# ------------------------------------------------------------------------
+
+# load packages ----------------------------------------------------------
+rm(list = ls())
+
+libs <- c("tidyverse", "tidytuesdayR", "aRt", 'showtext',
+          'ggstream')
+
+installed_libs <- libs %in% rownames (installed.packages ())
+if (any (installed_libs == F)) {
+  install.packages (libs[!installed_libs])
+}
+
+invisible(lapply (libs, library, character.only = T))
+
+font_add_google("Pragati Narrow")
+showtext_auto()
+
+
+# load dataset ------------------------------------------------------------
+
+tuesdata <- tidytuesdayR::tt_load('2023-02-21')
+bob_ross <- tuesdata$bob_ross
+
+# wrangle data ------------------------------------------------------------
+
+bob_ross$episode_num <- seq.int(nrow(bob_ross))
+
+bob_ross_colors <- bob_ross %>% 
+  select(episode_num, colors) %>%
+  separate_rows(colors, sep = ",\\s*|\\[|\\]") %>%
+  filter(colors != '')
+
+# Remove quotation marks around the color names
+bob_ross_colors$colors <- gsub("'", "", bob_ross_colors$colors)
+
+
+bob_ross_hex <- bob_ross %>% 
+  select(episode_num, color_hex) %>%
+  separate_rows(color_hex, sep = ",\\s*|\\[|\\]") %>%
+  filter(color_hex != '')
+
+# Remove quotation marks around the color hex
+bob_ross_hex$color_hex <- gsub("'", "", bob_ross_hex$color_hex)
+
+# Add column
+bob_ross_colors$color_hex <- bob_ross_hex$color_hex 
+
+bob_ross_colors <- bob_ross_colors %>%
+  group_by(episode_num, color_hex) %>%
+  summarize(freq = n()) %>%
+  ungroup() 
+
+
+%>%
+  group_by(episode_num) %>%
+  summarize(prop = freq/sum(freq), color_hex = color_hex)
+
+
+
+# plot --------------------------------------------------------------------
+
+streams(bg_col = "black", line_col = "white", 
+        fill_col = unique(bob_ross_colors$color_hex), type = "right", s = 1) +
+labs(title = "The Unique Color Pallette of Bob Ross",
+       subtitle = "@JacobCJameson | #TidyTuesday",
+       x = "",
+       y = "") +
+  theme(legend.position = "none",
+        plot.background = element_rect(fill = "black", colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.spacing = unit(0.2, "lines"),
+        strip.background = element_rect(fill = "black", colour = "black"),
+        strip.text = element_text(family = "Pragati Narrow", colour = "white", size = 11, lineheight = 0.5),
+        axis.text = element_blank(),
+        plot.title = element_text(family = "Pragati Narrow", colour = "white",
+                                  size = 40, hjust = 0.5, face = "bold",
+                                  margin = margin(t = 20, b = 20)),
+        plot.subtitle = element_text(family = "Pragati Narrow", colour = "white",
+                                     size = 24, hjust = 0.5,
+                                     margin = margin(b = 20)),
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))
+
+
+
+
+
+bob_ross_colors %>% 
+  ggplot(
+    aes(
+      episode_num, freq, 
+      color = color_hex, 
+      fill = color_hex
+    )
+  ) +
+  geom_stream(
+    geom = "contour",
+    color = "white",
+    size = 1.25,
+    bw = .45 # Controls smoothness
+  ) +
+  geom_stream(
+    geom = "polygon",
+    bw = .45,
+    size = 0
+  ) +
+  labs(title = "The Unique Color Pallette of Bob Ross",
+       subtitle = "@JacobCJameson | #TidyTuesday",
+       x = "Season",
+       y = "") +
+  theme(legend.position = "none",
+        plot.background = element_rect(fill = "black", colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.spacing = unit(0.2, "lines"),
+        strip.background = element_rect(fill = "black", colour = "black"),
+        strip.text = element_text(family = "Pragati Narrow", colour = "white", size = 11, lineheight = 0.5),
+        axis.text = element_blank(),
+        plot.title = element_text(family = "Pragati Narrow", colour = "white",
+                                  size = 40, hjust = 0.5, face = "bold",
+                                  margin = margin(t = 20, b = 20)),
+        plot.subtitle = element_text(family = "Pragati Narrow", colour = "white",
+                                     size = 24, hjust = 0.5,
+                                     margin = margin(b = 20)),
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))
+
+streams(bg_col = "black", line_col = "white", 
+        fill_col = unique(bob_ross_colors$color_hex), type = "right", s = 1)
+
