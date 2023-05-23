@@ -41,7 +41,7 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ### [2023/3](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-17/) 🎨 Art History
 
-![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-17/w3.png)
+![./2023/2023-01-17/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-17/w3.png)
 
 
 
@@ -51,7 +51,7 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ### [2023/4](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-24/) 🐻 ALONE
 
-![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-24/w4.png)
+![./2023/2023-01-24/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-24/w4.png)
 
 
 | Week | Date | Data | Source | Article
@@ -60,7 +60,7 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ### [2023/5](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-01-31/) 🐱 Pet Cats UK
 
-![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-31/week5_edit.png)
+![./2023/2023-01-31/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-01-31/week5_edit.png)
 
 
 | Week | Date | Data | Source | Article
@@ -69,13 +69,24 @@ My contributions to the [#TidyTuesday challenge](https://github.com/rfordatascie
 
 ### [2023/6](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-02-07/) 📈 Big Tech Stock Prices
 
-![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-07/w6.png)
+![./2023/2023-02-07/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-07/w6.png)
 
 
 | Week | Date | Data | Source | Article
 | :---: | :---: | :--- | :--- | :---|
 | 7 | `2023-02-14` | [Hollywood Age Gaps](2023-02-14/readme.md) | [Hollywood Age Gap Download Data](https://hollywoodagegap.com/movies.csv) | [Hollywood Age Gap](https://hollywoodagegap.com/) |
 
-### [2023/6](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-02-14/) 🎬 Hollywood Age Gaps
+### [2023/7](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-02-14/) 🎬 Hollywood Age Gaps
 
-![./2023/2023-01-10/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-14/w7.png)
+![./2023/2023-02-14/w2.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-02-14/w7.png)
+
+
+| Week | Date | Data | Source | Article
+| :---: | :---: | :--- | :--- | :---|
+| 21 | `2023-05-23` | [Central Park Squirrels](2023-05-23/readme.md) | [2018 Central Park Squirrel Census]([https://www.spc.noaa.gov/wcm/#data](https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw)) | [The Squirrel Census](https://www.thesquirrelcensus.com/) |
+
+### [2023/21](https://github.com/jacobjameson/TidyTuesday/blob/main/2023/2023-05-23/) 🐿️ Squirrel Census
+
+![./2023/2023-05-23/week21.png](https://raw.githubusercontent.com/jacobjameson/TidyTuesday/main/2023/2023-05-23/week21.png)
+
+
